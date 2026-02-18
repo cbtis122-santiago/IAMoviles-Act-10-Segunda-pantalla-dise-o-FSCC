@@ -1,269 +1,224 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const AlaBurgerApp());
+void main() {
+  runApp(const MyApp());
+}
 
-class AlaBurgerApp extends StatelessWidget {
-  const AlaBurgerApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: 'Alaburger',
       theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'Verdana', // Usamos una fuente estándar robusta
+        primarySwatch: Colors.orange,
       ),
-      home: const MenuAlaburger(),
+      home: const LoginAlaburger(),
     );
   }
 }
 
-class MenuAlaburger extends StatefulWidget {
-  const MenuAlaburger({super.key});
+
+// Agrega esta clase a tu archivo actual
+class LoginAlaburger extends StatefulWidget {
+  const LoginAlaburger({super.key});
 
   @override
-  State<MenuAlaburger> createState() => _MenuAlaburgerState();
+  State<LoginAlaburger> createState() => _LoginAlaburgerState();
 }
 
-class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    // Animación para el efecto de "fuego" (parpadeo sutil)
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _LoginAlaburgerState extends State<LoginAlaburger> {
+  bool _rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D), // Negro carbón casi total
+      backgroundColor: const Color(0xFF0D0D0D),
       body: Stack(
         children: [
-          // LLAMAS ANIMADAS DE FONDO
-          FadeTransition(
-            opacity: Tween<double>(begin: 0.1, end: 0.3).animate(_controller),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: -40,
-                  bottom: 150,
-                  child: Icon(Icons.local_fire_department, size: 200, color: Colors.orange.shade900),
-                ),
-                Positioned(
-                  right: -40,
-                  top: 100,
-                  child: Icon(Icons.local_fire_department, size: 200, color: Colors.red.shade900),
-                ),
-              ],
-            ),
+          // Mantenemos las llamas sutiles de fondo para consistencia
+          Positioned(
+            right: -50,
+            top: -20,
+            child: Icon(Icons.local_fire_department, size: 300, color: Colors.orange),
           ),
-
+          
           SafeArea(
-            child: Column(
-              children: [
-                // APP BAR PERSONALIZADA
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Tooltip(
-                        message: 'Favoritos',
-                        child: Icon(Icons.star_rounded, color: Colors.orange, size: 32),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 60),
+                  // TÍTULO SEGÚN BOCETO
+                  const Center(
+                    child: Text(
+                      'INICIO Sesión',
+                      style: TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                        shadows: [
+                          Shadow(color: Colors.orange, blurRadius: 15),
+                        ],
                       ),
-                      const Tooltip(
-                        message: 'Buscar',
-                        child: Icon(Icons.search_rounded, color: Colors.white, size: 32),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // TÍTULO CON NUEVA JERARQUÍA
-                const Text(
-                  'MENU',
-                  style: TextStyle(
-                    fontSize: 70, // Super grande
-                    fontWeight: FontWeight.w900,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white,
-                    letterSpacing: 4,
-                    height: 0.9,
-                    shadows: <Shadow>[
-                      Shadow(color: Colors.orange, blurRadius: 20, offset: Offset(0, 4)),
-                      Shadow(color: Colors.red, blurRadius: 40),
-                    ],
-                  ),
-                ),
-                const Text(
-                  'by Alaburger al Carbón',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.orangeAccent,
-                    letterSpacing: 3,
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                // GRILLA DE COMIDA
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 0.78,
-                      children: const <FoodItem>[
-                        FoodItem(
-                          name: 'CARNE POLLO',
-                          price: '180',
-                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/carnepollo.jpg',
-                        ),
-                        FoodItem(
-                          name: 'VEGANA',
-                          price: '150',
-                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/vegana.jpg',
-                        ),
-                        FoodItem(
-                          name: 'ULTRA QUESO',
-                          price: '250',
-                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/ultraqueso.jpg',
-                        ),
-                        FoodItem(
-                          name: 'GASEOSA',
-                          price: '25',
-                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/gaseosa.jpg',
-                        ),
-                      ],
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 50),
+
+                  // CAMPO CORREO
+                  _buildLabel("Correo Electrónico"),
+                  _buildTextField(Icons.email_outlined, "ejemplo@mail.com"),
+                  
+                  const SizedBox(height: 25),
+
+                  // CAMPO CONTRASEÑA
+                  _buildLabel("Contraseña"),
+                  _buildTextField(Icons.lock_outline, "********", isPassword: true),
+
+                  const SizedBox(height: 15),
+
+                  // RECORDARME (CHECKBOX)
+                  Row(
+                    children: [
+                      Theme(
+                        data: ThemeData(unselectedWidgetColor: Colors.orange),
+                        child: Checkbox(
+                          value: _rememberMe,
+                          activeColor: Colors.orange,
+                          checkColor: Colors.black,
+                          onChanged: (val) => setState(() => _rememberMe = val!),
+                        ),
+                      ),
+                      const Text("Recordarme", style: TextStyle(color: Colors.white70)),
+                    ],
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  // BOTÓN INGRESAR
+                  SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Aquí navegarías al Menú que ya hiciste
+                        Navigator.pushReplacement(
+                          context, 
+                          MaterialPageRoute(builder: (context) => const MenuAlaburger())
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 10,
+                        shadowColor: Colors.orange,
+                      ),
+                      child: const Text(
+                        'INGRESAR',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // BOTÓN REGISTRATE
+                  Center(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Registrate',
+                        style: TextStyle(
+                          color: Colors.orangeAccent,
+                          fontSize: 16,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
       
-      // NAVBAR INFERIOR CON TOOLTIPS
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        decoration: const BoxDecoration(
-          color: Color(0xFF1A1A1A),
-          border: Border(top: BorderSide(color: Colors.orange)),
+      // NAVBAR IGUAL AL MENÚ PARA CONTINUIDAD
+      bottomNavigationBar: _buildBottomBar(),
+    );
+  }
+
+  // Widget auxiliar para las etiquetas
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8, left: 5),
+      child: Text(
+        text,
+        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  // Widget auxiliar para los inputs
+  Widget _buildTextField(IconData icon, String hint, {bool isPassword = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.orange),
+      ),
+      child: TextField(
+        obscureText: isPassword,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.white24),
+          prefixIcon: Icon(icon, color: Colors.orange),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 15),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Tooltip(
-              message: 'Atrás',
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white70),
-                onPressed: () {},
-              ),
-            ),
-            Tooltip(
-              message: 'Perfil',
-              child: IconButton(
-                icon: const Icon(Icons.person_pin, color: Colors.orange, size: 38),
-                onPressed: () {},
-              ),
-            ),
-            Tooltip(
-              message: 'Inicio',
-              child: IconButton(
-                icon: const Icon(Icons.home_filled, color: Colors.white70),
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      decoration: const BoxDecoration(
+        color: Color(0xFF1A1A1A),
+        border: Border(top: BorderSide(color: Colors.orange)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const Icon(Icons.arrow_back_ios_new, color: Colors.white70),
+          const Icon(Icons.person_pin, color: Colors.orange, size: 38),
+          const Icon(Icons.home_filled, color: Colors.white70),
+        ],
       ),
     );
   }
 }
 
-class FoodItem extends StatelessWidget {
-  final String name;
-  final String price;
-  final String img;
 
-  const FoodItem({super.key, required this.name, required this.price, required this.img});
+class MenuAlaburger extends StatelessWidget {
+  const MenuAlaburger({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.orange),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(color: Colors.black, blurRadius: 10, offset: Offset(0, 5))
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Menu'),
       ),
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
-              child: Image.network(
-                img,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                          : null,
-                      color: Colors.orange,
-                    ),
-                  );
-                },
-                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                  return const Center(
-                    child: Icon(
-                      Icons.broken_image,
-                      color: Colors.grey,
-                      size: 50,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '\$$price',
-                  style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w900, fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: const Center(
+        child: Text('Welcome to the menu!'),
       ),
     );
   }
